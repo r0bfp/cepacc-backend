@@ -1,11 +1,26 @@
 const CourseModel = require('../models/Course');
+const ModalityModel = require('../models/Modality');
 
 module.exports = {
     async store(req, res){
-        const { name, duration, area } = req.body;
+        const { modalities, ...data } = req.body;
 
-        const dbResponse = await CourseModel.create({ name, duration, area });
+        const course = await CourseModel.create(data);
 
-        return res.json(dbResponse);
+        course.setModalities(modalities);
+
+        return res.json(course);
+    },
+    async list(req, res){
+        const courses = await CourseModel.findAll({
+            include: [{
+                model: ModalityModel,
+                as: 'modalities',
+                attributes: ['name'],
+                through: { attributes: [] }
+            }]
+        });
+
+        return res.json(courses);
     }
 }
