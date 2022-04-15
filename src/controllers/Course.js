@@ -7,6 +7,10 @@ module.exports = {
 
         const course = await CourseModel.create(data);
 
+        if(modalities && !modalities.length){
+            return res.status(400).json({'error': 'Modalities is required.'})
+        }
+
         course.setModalities(modalities);
 
         return res.json(course);
