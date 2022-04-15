@@ -7,6 +7,7 @@ class Course extends Model {
             name: DataTypes.STRING,
             duration: DataTypes.INTEGER,
             area: DataTypes.STRING,
+            type: DataTypes.STRING,
             value: DataTypes.FLOAT
         }, {
             sequelize: connection,
